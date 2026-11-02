@@ -17,10 +17,10 @@ window.SFG = {
   slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   towns: {
-    "Rehoboth": "open",
+    "Rehoboth": "coming soon",
     "Okahandja": "coming soon",
     "Swakopmund": "coming soon",
-    "Walvis Bay": "coming soon",
+    "Walvis Bay": "open",
     "Otjiwarongo": "coming soon",
     "Tsumeb": "coming soon",
     "Mariental": "coming soon",

@@ -20,7 +20,7 @@ window.SFG = {
     "Rehoboth": "coming soon",
     "Okahandja": "coming soon",
     "Swakopmund": "coming soon",
-    "Walvis Bay": "open",
+    "Walvis Bay": "Coming soon",
     "Otjiwarongo": "coming soon",
     "Tsumeb": "coming soon",
     "Mariental": "coming soon",

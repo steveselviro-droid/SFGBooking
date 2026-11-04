@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFG — Client Pamphlet (4-Panel Landscape)</title>
+<style>
+  /* ===== PRINT SETUP: A4 LANDSCAPE ===== */
+  @page {
+    size: A4 landscape;
+    margin: 6mm;
+  }
+
+  :root{
+    --brand:#0a3d62;
+    --brand-light:#1e6f9f;
+    --accent:#e58e26;
+    --bg:#f7f9fc;
+    --text:#1e2a36;
+    --muted:#5a6c7d;
+    --green:#2e7d32;
+    --green-bg:#e8f5e9;
+    --amber:#ff8f00;
+    --amber-bg:#fff8e1;
+    --border:#dde5ed;
+    --radius:8px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#e9eef4;
+    color:var(--text);
+    line-height:1.4;
+    font-size:11.5px;
+    padding:14px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* ===== LANDSCAPE A4 SHEET — 4 PANELS IN A ROW ===== */
+  .sheet{
+    width:297mm;
+    min-height:210mm;
+    margin:0 auto 20px;
+    background:#fff;
+    border-radius:6px;
+    box-shadow:0 3px 14px rgba(0,0,0,.08);
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 1fr;
+    overflow:hidden;
+  }
+
+  .panel{
+    padding:9mm 8mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    border-right:1px dashed #c9d3dc;
+  }
+  .panel:last-child{border-right:none;}
+
+  /* ===== PANEL 1: FRONT COVER ===== */
+  .cover{text-align:center;background:linear-gradient(180deg,#fff 0%,#f7f9fc 100%);}
+  .cover .brand-big{
+    display:inline-block;
+    background:var(--brand);
+    color:#fff;
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:3px;
+    padding:8px 22px;
+    border-radius:7px;
+    margin-bottom:10px;
+  }
+  .cover h1{
+    font-size:19px;
+    color:var(--brand);
+    line-height:1.25;
+    margin-bottom:8px;
+  }
+  .cover .tagline{
+    font-size:12.5px;
+    color:var(--accent);
+    font-weight:700;
+    margin-bottom:12px;
+    letter-spacing:0.5px;
+  }
+  .cover .promise{
+    font-size:12.5px;
+    color:var(--text);
+    font-weight:600;
+    background:#fff;
+    border-left:4px solid var(--accent);
+    padding:9px 12px;
+    border-radius:0 7px 7px 0;
+    text-align:left;
+    margin-bottom:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .cover .bullets{
+    text-align:left;
+    margin:0 0 12px 0;
+    padding:0;
+  }
+  .cover .bullets li{
+    list-style:none;
+    margin-bottom:6px;
+    font-size:11px;
+    padding-left:20px;
+    position:relative;
+    line-height:1.35;
+  }
+  .cover .bullets li::before{
+    content:"✅";
+    position:absolute;
+    left:0;
+    font-size:10px;
+  }
+  .cover .how{
+    background:var(--brand);
+    color:#fff;
+    border-radius:7px;
+    padding:10px 12px;
+    text-align:left;
+    margin-bottom:10px;
+  }
+  .cover .how h3{
+    font-size:12px;
+    margin-bottom:5px;
+    color:var(--accent);
+    letter-spacing:0.3px;
+  }
+  .cover .how ol{
+    margin:0 0 0 14px;
+    font-size:10.5px;
+    line-height:1.45;
+  }
+  .cover .how ol li{margin-bottom:2px;}
+
+  /* Contact quick box on cover — dark text on light bg */
+  .cover .contact-quick{
+    background:#fff;
+    border:1.5px solid var(--brand);
+    border-radius:7px;
+    padding:8px 10px;
+    text-align:left;
+    font-size:10.5px;
+  }
+  .cover .contact-quick strong{color:var(--brand);}
+  .cover .contact-quick .phone{
+    font-size:15px;
+    color:var(--brand);
+    font-weight:800;
+    display:block;
+    margin:3px 0;
+    letter-spacing:0.5px;
+  }
+  .cover .contact-quick .phone-alt{
+    font-size:12px;
+    color:var(--brand-light);
+    font-weight:700;
+    display:block;
+    margin-bottom:3px;
+  }
+
+  /* Coming this November badge */
+  .cover .coming{
+    background:var(--accent);
+    color:#fff;
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:11px;
+    font-weight:700;
+    text-align:center;
+    margin-top:8px;
+    letter-spacing:0.3px;
+  }
+
+  /* ===== GENERIC SECTION HEADINGS ===== */
+  h2{
+    font-size:13px;
+    color:var(--brand);
+    margin-bottom:6px;
+    padding-bottom:3px;
+    border-bottom:2px solid var(--brand);
+  }
+  h3{
+    font-size:11.5px;
+    color:var(--brand-light);
+    margin:8px 0 3px;
+    line-height:1.3;
+  }
+  p{font-size:10.5px;margin-bottom:4px;line-height:1.4;}
+  ul{margin:0 0 5px 14px;font-size:10.5px;}
+  li{margin-bottom:3px;line-height:1.35;}
+
+  /* ===== PANEL 2 ===== */
+  .panel-2 h2{font-size:13.5px;}
+
+  /* ===== PANEL 3: PAYMENT + CONTACT ===== */
+  .pay-box{
+    background:var(--green-bg);
+    border-left:3px solid var(--green);
+    border-radius:0 6px 6px 0;
+    padding:7px 10px;
+    margin:6px 0;
+    font-size:10.5px;
+  }
+  .pay-box strong{color:var(--green);}
+  .pay-box ol{margin:3px 0 0 14px;font-size:10.5px;line-height:1.4;}
+  .pay-box ol li{margin-bottom:2px;}
+
+  /* Cutoff callout box */
+  .cutoff-box{
+    background:var(--amber-bg);
+    border:1.5px solid var(--amber);
+    border-radius:6px;
+    padding:7px 10px;
+    margin:6px 0;
+    font-size:10.5px;
+  }
+  .cutoff-box strong{color:var(--amber);display:block;margin-bottom:2px;}
+  .cutoff-box p{margin:2px 0 0 0;font-size:10.5px;}
+
+  /* Contact box — ensure white text on dark bg */
+  .contact-box{
+    background:var(--brand);
+    color:#fff;
+    border-radius:7px;
+    padding:10px 12px;
+    margin:8px 0;
+    text-align:center;
+  }
+  .contact-box h3{
+    color:var(--accent);
+    font-size:12px;
+    margin:0 0 6px 0;
+    letter-spacing:0.5px;
+  }
+  .contact-box .num-row{
+    display:flex;
+    gap:6px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:5px;
+  }
+  .contact-box .num{
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:5px;
+    padding:5px 9px;
+    flex:1;
+    min-width:0;
+  }
+  .contact-box .num .label{
+    display:block;
+    font-size:8.5px;
+    color:var(--accent);
+    letter-spacing:1px;
+    font-weight:700;
+    margin-bottom:1px;
+  }
+  .contact-box .num .phone{
+    display:block;
+    font-size:12.5px;
+    font-weight:800;
+    color:#ffffff;
+    letter-spacing:0.3px;
+    white-space:nowrap;
+  }
+  .contact-box .email{
+    font-size:10px;
+    color:#ffffff;
+    margin-top:4px;
+    font-weight:600;
+  }
+
+  /* Website box */
+  .website-box{
+    background:#fff;
+    border:1.5px solid var(--brand-light);
+    border-radius:6px;
+    padding:7px 10px;
+    margin:6px 0;
+    font-size:10.5px;
+    text-align:center;
+  }
+  .website-box strong{color:var(--brand);display:block;margin-bottom:2px;}
+  .website-box .url{
+    font-size:12px;
+    font-weight:800;
+    color:var(--brand-light);
+    letter-spacing:0.3px;
+  }
+
+  .website-box{display:flex;align-items:center;gap:9px;text-align:left}
+  .website-box .qr{flex:none;width:21mm;height:21mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .website-box .qr svg{display:block;width:100%;height:100%}
+  .website-box .sub{display:block;font-size:10px;margin-bottom:2px}
+  .website-box .url{display:block}
+
+  /* ===== PANEL 4: FAQ + RULES ===== */
+  .panel-4 h2{font-size:13px;}
+
+  .rules-box{
+    background:var(--amber-bg);
+    border-left:3px solid var(--amber);
+    border-radius:0 6px 6px 0;
+    padding:6px 9px;
+    margin:6px 0;
+    font-size:10px;
+  }
+  .rules-box strong{color:var(--amber);}
+
+  .promise-box{
+    background:#fff;
+    border:1.5px solid var(--brand);
+    border-radius:6px;
+    padding:6px 9px;
+    margin:6px 0;
+    font-size:10px;
+  }
+  .promise-box strong{color:var(--brand);}
+
+  /* ===== PANEL FOOTER ===== */
+  .panel-foot{
+    text-align:center;
+    font-size:9px;
+    color:var(--muted);
+    margin-top:auto;
+    padding-top:6px;
+    border-top:2px solid var(--brand);
+  }
+  .panel-foot strong{color:var(--brand);display:block;margin-bottom:1px;}
+
+  /* ===== PRINT STYLES ===== */
+  @media print{
+    body{
+      background:#fff !important;
+      padding:0 !important;
+      font-size:8.2pt;
+    }
+    .sheet{
+      box-shadow:none !important;
+      border-radius:0 !important;
+      width:100% !important;
+      min-height:auto !important;
+      margin:0 !important;
+    }
+    .panel{
+      border-right:1px dashed #ddd !important;
+      padding:4.5mm 4.5mm !important;
+      page-break-inside:avoid;
+      break-inside:avoid;
+    }
+    .sheet{height:197mm !important;overflow:hidden;}
+    .panel{zoom:.84;}
+    .cover{background:#fff !important;}
+    .contact-box{background:#0a3d62 !important;color:#fff !important;}
+    .contact-box h3{color:#e58e26 !important;}
+    .contact-box .num{background:rgba(255,255,255,0.15) !important;border:1px solid rgba(255,255,255,0.35) !important;}
+    .contact-box .num .label{color:#e58e26 !important;}
+    .contact-box .num .phone{color:#ffffff !important;}
+    .contact-box .email{color:#ffffff !important;}
+    .pay-box{background:#e8f5e9 !important;}
+    .cutoff-box{background:#fff8e1 !important;}
+    .rules-box{background:#fff8e1 !important;}
+    .cover .how{background:#0a3d62 !important;color:#fff !important;}
+    .cover .how h3{color:#e58e26 !important;}
+    .cover .coming{background:#e58e26 !important;color:#fff !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ PANEL 1: FRONT COVER ============ -->
+  <div class="panel cover">
+    <div>
+      <div class="brand-big">SFG</div>
+      <h1>Book your seat.<br>Know your time.<br>Skip the crowd.</h1>
+      <div class="tagline">Safe · Fast · Guaranteed</div>
+
+      <div class="promise">
+        "You book, you pay, you get a time and the driver's plate number — then you just show up."
+      </div>
+
+      <ul class="bullets">
+        <li><strong>Book any time</strong> — even at 2am, from your phone.</li>
+        <li><strong>Fixed departure time</strong> — know exactly when the car leaves.</li>
+        <li><strong>Pay ahead, ride secure</strong> — your seat is locked.</li>
+        <li><strong>Know your driver</strong> — name, plate, model, colour.</li>
+        <li><strong>No tugging, no waiting, no guessing.</strong></li>
+        <li><strong>Book up to 48 hours ahead.</strong></li>
+        <li><strong>Send parcels</strong> on the same trip.</li>
+      </ul>
+
+      <div class="how">
+        <h3>HOW IT WORKS — 4 STEPS</h3>
+        <ol>
+          <li>Message us your route and time.</li>
+          <li>Pay by bank transfer or e-wallet.</li>
+          <li>Get your booking reference and driver's details.</li>
+          <li>Show up at your time and go.</li>
+        </ol>
+      </div>
+
+      <div class="contact-quick">
+        <strong>Book on WhatsApp:</strong>
+        <span class="phone">081 238 5723</span>
+        Or call: <strong>081 212 8606</strong><br>
+        ✉️ sfgbooking97@gmail.com
+      </div>
+
+      <div class="coming">
+        🚀 COMING THIS NOVEMBER — more routes, more slots. Watch this space.
+      </div>
+    </div>
+    <div class="panel-foot">
+      <strong>SFG</strong>
+      Safe, Fast &amp; Guaranteed
+    </div>
+  </div>
+
+  <!-- ============ PANEL 2: WHAT YOU GET ============ -->
+  <div class="panel panel-2">
+    <div>
+      <h2>What you get with SFG</h2>
+
+      <h3>🕐 Your time is respected</h3>
+      <p>Every trip has a <strong>fixed departure time</strong>. It never leaves early, never leaves late. You plan your day around your travel.</p>
+
+      <h3>🛡️ Your seat is guaranteed</h3>
+      <p>You <strong>pay ahead</strong>, and your seat is locked. The car only leaves when enough seats are paid — so you never wait for a car to fill up.</p>
+
+      <h3>👤 You know your driver before you travel</h3>
+      <p>We send you the <strong>driver's name, plate number, car model and colour</strong>. No more getting into a stranger's car at a crowded stop.</p>
+
+      <h3>🌙 Safe night travel</h3>
+      <p>Book a night trip in advance, pay ahead, and get a confirmed, traceable ride. No risky walk to a dark stop hoping to find a car.</p>
+
+      <h3>📦 Send parcels without travelling</h3>
+      <p>Book a parcel on any confirmed trip. We will quote you a price based on the size and destination. Ask when you book.</p>
+
+      <h3>🚫 No more standing in the crowd</h3>
+      <p>You don't go to the stop and hope. You book from your phone, you know your time, and you walk straight to your car.</p>
+
+      <h3>📍 Dedicated Pickup Points</h3>
+      <p>To guarantee on-time departures, we use <strong>one central meeting point per trip</strong>. The exact location is sent to you 1 hour before departure.</p>
+
+      <h3>📅 Book up to 48 hours ahead</h3>
+      <p>Going to work tomorrow? Book tonight. Coming back Friday? Book Wednesday. Your seat is waiting.</p>
+    </div>
+    <div class="panel-foot">
+      <strong>SFG</strong>
+      Safe, Fast &amp; Guaranteed
+    </div>
+  </div>
+
+  <!-- ============ PANEL 3: PAYMENT + CONTACT ============ -->
+  <div class="panel panel-3">
+    <div>
+      <h2>How payment works</h2>
+
+      <div class="pay-box">
+        <strong>💳 Pay by bank transfer or e-wallet</strong>
+        <ol>
+          <li>Message us to book your seat. We confirm the price.</li>
+          <li>We send you our <strong>bank or e-wallet details</strong> in the same message.</li>
+          <li>You make the payment and send us the <strong>proof</strong> (a screenshot or the transaction reference).</li>
+          <li>Your bank reference becomes your <strong>booking reference</strong> — we send it back with your driver's details.</li>
+          <li>Your seat is locked. You just show up at your time.</li>
+        </ol>
+      </div>
+
+      <div class="pay-box" style="background:#fff8e1;border-left-color:#ff8f00;">
+        <strong style="color:#ff8f00;">💵 Paying cash to the driver?</strong>
+        <p style="margin:3px 0 0 0;">Cash is accepted, but it's slower. The driver has to collect and confirm before your seat is locked. <strong>Electronic payment confirms your seat instantly.</strong></p>
+      </div>
+
+      <div class="cutoff-box">
+        <strong>⏰ BOOKING CUTOFF</strong>
+        <p>✅ <strong>Bookings close 1 hour before departure.</strong></p>
+        <p>✅ <strong>Once closed, you cannot cancel.</strong></p>
+      </div>
+
+      <h3>Why pay electronically?</h3>
+      <ul>
+        <li><strong>Instant confirmation</strong> — no waiting for the driver to collect.</li>
+        <li><strong>Traceable</strong> — your bank reference is your booking reference.</li>
+        <li><strong>Safer</strong> — no cash to carry, especially at night.</li>
+        <li><strong>Faster refunds</strong> — straight back to your account.</li>
+        <li><strong>Priority</strong> — paid clients get the seat first when a trip is nearly full.</li>
+      </ul>
+
+      <div class="contact-box">
+        <h3>📞 CONTACT US</h3>
+        <div class="num-row">
+          <div class="num">
+            <span class="label">BOOKINGS</span>
+            <span class="phone">081 238 5723</span>
+          </div>
+          <div class="num">
+            <span class="label">ALT. NUMBER</span>
+            <span class="phone">081 212 8606</span>
+          </div>
+        </div>
+        <div class="email">✉️ sfgbooking97@gmail.com</div>
+      </div>
+
+      <div class="website-box">
+        <div class="qr" role="img" aria-label="QR code for www.sfgbooking.com"><svg viewBox="0 0 33 33" class="segno"><path class="qrline" stroke="#072c48" d="M2 2.5h7m2 0h1m1 0h1m1 0h2m3 0h3m1 0h7m-29 1h1m5 0h1m2 0h1m1 0h2m2 0h3m1 0h1m2 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h3m1 0h1m1 0h1m2 0h4m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m3 0h1m2 0h1m2 0h1m2 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h4m3 0h1m2 0h1m3 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h1m2 0h6m1 0h2m2 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-20 1h1m2 0h6m1 0h2m-20 1h1m2 0h1m1 0h1m1 0h4m1 0h3m2 0h4m1 0h2m1 0h1m-20 1h5m3 0h4m1 0h1m1 0h1m1 0h1m2 0h2m-28 1h6m2 0h3m2 0h1m3 0h1m1 0h2m2 0h3m1 0h1m-28 1h1m1 0h1m1 0h1m4 0h2m1 0h1m1 0h1m1 0h1m2 0h2m3 0h1m1 0h2m-29 1h2m1 0h1m2 0h1m2 0h2m1 0h1m1 0h4m5 0h1m1 0h1m2 0h1m-29 1h1m2 0h1m1 0h1m1 0h4m1 0h2m3 0h1m4 0h1m1 0h1m1 0h1m1 0h1m-23 1h1m1 0h2m1 0h1m1 0h3m2 0h1m1 0h1m3 0h1m3 0h1m-29 1h2m1 0h1m5 0h3m1 0h2m4 0h3m1 0h1m1 0h1m-25 1h1m4 0h1m1 0h2m1 0h3m2 0h1m2 0h3m5 0h2m-29 1h1m4 0h1m2 0h2m1 0h1m1 0h2m3 0h1m3 0h4m2 0h1m-27 1h1m3 0h2m2 0h1m1 0h1m1 0h2m4 0h1m2 0h4m1 0h1m-26 1h1m3 0h1m1 0h1m1 0h2m2 0h6m3 0h2m-26 1h2m4 0h3m4 0h2m2 0h1m2 0h6m2 0h1m-21 1h3m1 0h5m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m-29 1h7m3 0h1m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m3 0h1m-29 1h1m5 0h1m2 0h1m4 0h1m2 0h4m3 0h2m1 0h1m-28 1h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h1m3 0h7m-25 1h1m1 0h3m1 0h1m2 0h3m1 0h2m1 0h1m6 0h1m1 0h1m1 0h1m-28 1h1m1 0h3m1 0h1m2 0h2m2 0h1m2 0h1m1 0h4m3 0h1m1 0h2m-29 1h1m5 0h1m1 0h1m1 0h2m5 0h1m2 0h4m1 0h1m1 0h2m-29 1h7m2 0h3m1 0h3m1 0h1m2 0h3m1 0h2m1 0h1"/></svg></div>
+        <div class="web-text"><strong>Scan to book online</strong><span class="sub">Slots &amp; more info</span><span class="url">www.sfgbooking.com</span></div>
+      </div>
+
+      <h3>How to reach us</h3>
+      <p>WhatsApp, call, SMS, or email — whichever is easiest for you. Message us <strong>"BOOK"</strong> and we'll take it from there.</p>
+    </div>
+    <div class="panel-foot">
+      <strong>SFG</strong>
+      Safe, Fast &amp; Guaranteed
+    </div>
+  </div>
+
+  <!-- ============ PANEL 4: FAQ + RULES ============ -->
+  <div class="panel panel-4">
+    <div>
+      <h2>Frequently asked questions</h2>
+
+      <h3>What if the trip doesn't fill?</h3>
+      <p>You get a <strong>full refund</strong>, and we offer you the next departure at no extra cost. We only cancel when there aren't enough paid passengers — never to save us money.</p>
+
+      <h3>What if I miss my trip?</h3>
+      <p>Confirmed departures leave on time. If you miss it, the fare isn't refunded — but first-time misses get a goodwill credit toward your next trip. Message us and we'll help.</p>
+
+      <h3>Can I book for someone else?</h3>
+      <p>Yes. Give us their name and phone number, and we'll send the driver's details to both of you.</p>
+
+      <h3>Can I send a parcel?</h3>
+      <p>Yes — on any confirmed trip. Pricing depends on size and destination; ask us for a quote when you book.</p>
+
+      <h3>How early should I arrive?</h3>
+      <p><strong>10 minutes</strong> before departure at the designated meeting point. That's it — no need to come earlier to hold a spot.</p>
+
+      <h3>What if I need to change my booking?</h3>
+      <p>Message us as early as possible. Changes are easier the further ahead you tell us.</p>
+
+      <div class="rules-box">
+        <strong>📋 The simple rules</strong><br>
+        Book at least 1 hour before departure · arrive 10 minutes early at the designated pickup point · show your booking message when you board · one seat per paying passenger · electronic payment is faster and safer than cash.
+      </div>
+
+      <div class="promise-box">
+        <strong>🤝 Our promise:</strong> if <em>we</em> cancel your trip, you get every cent back. If we confirm it, the car leaves at the published time — not early, not late.
+      </div>
+    </div>
+    <div class="panel-foot">
+      <strong>SFG</strong>
+      Book: 081 238 5723<br>
+      081 212 8606 · sfgbooking97@gmail.com
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

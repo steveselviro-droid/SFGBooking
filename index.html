@@ -82,7 +82,7 @@ h2{font-size:28px;color:var(--n);line-height:1.2;margin-bottom:14px}
 .rt{list-style:none;columns:2;column-gap:10px}
 .rt li{display:block;padding:7px 12px;margin-bottom:8px;break-inside:avoid;font-size:16px;line-height:1.3;border:1px solid #2a2a2a;border-radius:10px;background:#111;color:#8f9cab}
 .rt li.o{color:#fff;border-color:var(--g)}
-.rt em{display:block;font-style:normal;font-weight:700;font-size:13px}.rt .o em{color:#3ddc6c}.rt .pr{display:block;margin-top:3px;font-size:15px;color:#fff;font-weight:700}.rt .pr small{display:block;font-weight:400;font-size:12px;color:#8f9cab;margin-top:1px}.pl{margin:6px 0 0;font-size:14px;font-weight:700;color:#3ddc6c}
+.rt em{display:block;font-style:normal;font-weight:700;font-size:13px}.rt .o em{color:#3ddc6c}
 details{border:1px solid #2a2a2a;border-radius:10px;padding:12px 14px;margin-bottom:10px;background:#111}
 summary{font-weight:700;color:#fff;cursor:pointer;min-height:32px}
 details p{margin-top:8px}
@@ -98,6 +98,8 @@ footer a{color:#fff}
 .soon{background:#fff8e1;color:#5d4037;border-left:4px solid var(--o);border-radius:8px;padding:8px 10px;font-size:14px;margin-top:8px}
 .go:disabled{background:#8a98a8;cursor:not-allowed}
 @supports(background-image:image-set(url(a.webp) type("image/webp"))){.hero{background-image:image-set(url(hero.webp) type("image/webp"),url(hero.jpg) type("image/jpeg"))}}
+.price{font-weight:800;color:var(--n);font-size:17px;margin-top:8px}
+.rt small{display:block;font-size:12px;font-weight:500;color:#c9dceb}
 </style></head>
 <body>
 <nav class="nav"><a class="brand" href="#book">SFG</a><div class="links"><a href="#book">Book</a><a href="#how">How it works</a><a href="#why">Why SFG</a><a href="#where">Where we go</a><a href="#faq">Questions</a><a href="#terms">Terms</a><a href="#contact">Contact</a></div></nav>
@@ -107,17 +109,18 @@ footer a{color:#fff}
 <label for="name">Your name</label>
 <input type="text" id="name" placeholder="Type your name" autocomplete="given-name">
 <div class="ft"><div><label for="from">From</label><select id="from"></select></div><button class="swap" id="swap" type="button" aria-label="Swap from and to">⇄</button><div><label for="to">To</label><select id="to"></select></div></div>
-<p class="pl" id="price" aria-live="polite"></p>
 <label>Day</label><div class="days" id="days"></div>
 <label>Time</label><div class="slots" id="slots"></div><p class="hint" id="hint"></p>
 <div class="r2"><div class="seats"><span>Seats</span><button type="button" id="minus" aria-label="Fewer seats">−</button><b id="sn" aria-live="polite">1</b><button type="button" id="plus" aria-label="More seats">+</button></div><label class="chk"><input type="checkbox" id="parcel"> Sending a parcel too</label></div>
+<label class="chk" id="homeRow" hidden><input type="checkbox" id="home"> <span id="homeTxt"></span></label>
+<p class="price" id="price" hidden></p>
 <p class="soon" id="soon" hidden>All routes are coming soon. WhatsApp 081 238 5723 and we will tell you when yours opens.</p>
 <p class="err" id="err" role="alert"></p>
 <button class="go" id="go" type="button">Send my booking on WhatsApp</button>
 </div>
 <div class="card done" id="done" hidden>
 <h2>Almost done</h2>
-<p><b>WhatsApp should be open.</b> Tap the green SEND button there to finish your booking. Our secretary will reply with the price and how to pay.</p>
+<p><b>WhatsApp should be open.</b> Tap the green SEND button there to finish your booking. Our secretary will confirm the price and how to pay.</p>
 <a class="btn g" id="again" target="_blank" rel="noopener">Open WhatsApp again</a>
 <button class="btn l" id="copy" type="button">Copy my booking</button>
 <a class="btn l" data-call>Call us instead</a>
@@ -147,7 +150,7 @@ footer a{color:#fff}
 
 <section id="where"><div class="w">
 <h2>Where we go</h2>
-<p style="margin-bottom:12px">Every route works both ways: <b>Windhoek ⇄ town</b>.</p>
+<p style="margin-bottom:12px">Every route works both ways: <b>Windhoek ⇄ town</b>. Prices are per seat and the same each way.</p>
 <ul class="rt" id="routes"></ul>
 </div></section>
 
@@ -225,7 +228,8 @@ footer a{color:#fff}
 const C=window.SFG,$=i=>document.getElementById(i);
 if(!C){document.body.innerHTML='<p style="padding:30px;font:20px sans-serif">The booking form could not load. Please WhatsApp <b>081 238 5723</b>.</p>';throw 0}
 C.maxAheadHours=C.maxAheadHours||24;
-const H=C.hub,T=C.towns,S={day:null,time:null,seats:1},info=t=>{const v=T[t];return Array.isArray(v)?{s:v[0],p:v[1],h:v[2]}:{s:v}},open=t=>t===H||info(t).s==="open",cur=C.currency||"N$";
+const H=C.hub,T=C.towns,S={day:null,time:null,seats:1},open=t=>t===H||T[t]==="open";
+const cur=C.currency||"N$",P=C.prices||{},HP=C.homePrices||{};
 const names=Object.keys(T).sort((a,b)=>(open(b)-open(a))||a.localeCompare(b));
 if(!names.some(open)){$("soon").hidden=false;$("go").disabled=true;$("go").textContent="Booking opens soon"}
 const wn=()=>new Date(new Date().toLocaleString("en-US",{timeZone:"Africa/Windhoek"}));
@@ -247,16 +251,20 @@ function drawSlots(){let n=0;
 $("from").innerHTML=opt("","Pick a town")+opt(H,H)+list();fillTo();
 S.day=[0,1].find(i=>C.slots.some(t=>!closed(i,t)));if(S.day===undefined)S.day=1;
 drawDays();drawSlots();
-$("from").onchange=fillTo;
-$("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f};
+const town=()=>{const f=$("from").value;return f===H?$("to").value:f};
+const per=t=>$("home").checked&&HP[t]?HP[t]:P[t];
+function pl(){const t=town(),p=per(t),a=[];if(t&&p!=null){a.push("Price: "+cur+p+" per seat"+(S.seats>1?" x "+S.seats+" = "+cur+p*S.seats:""));if($("home").checked&&HP[t])a.push("Drop-off: At my home")}return a}
+function upd(){const t=town(),ok=t&&open(t),hp=ok&&HP[t]!=null;
+ $("homeRow").hidden=!hp;if(!hp)$("home").checked=false;else $("homeTxt").textContent="Drop me at my home ("+cur+HP[t]+" per seat)";
+ const p=per(t),e=$("price");e.hidden=!ok;
+ if(ok)e.textContent=p==null?"Price: our secretary will confirm.":"Price: "+cur+p+" per seat"+(S.seats>1?" · "+S.seats+" seats = "+cur+p*S.seats:"")}
+$("home").onchange=upd;
+$("from").onchange=()=>{fillTo();upd()};$("to").onchange=upd;
+$("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f;upd()};
 $("days").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.day=+b.dataset.i;drawDays();drawSlots()};
 $("slots").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;S.time=b.dataset.t;drawSlots()};
-$("minus").onclick=()=>{S.seats=Math.max(1,S.seats-1);$("sn").textContent=S.seats};
-$("plus").onclick=()=>{S.seats=Math.min(C.maxSeats,S.seats+1);$("sn").textContent=S.seats};
-const priceInfo=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return null;const i=info(f===H?t:f);return i.p?i:null};
-function updatePrice(){const i=priceInfo(),e=$("price");if(!i){e.textContent="";return}
- let x="Price: "+cur+i.p+" per seat";if(S.seats>1)x+=" ("+S.seats+" seats = "+cur+i.p*S.seats+")";if(i.h)x+=" · "+cur+i.h+" with "+(C.homeLabel||"home drop-off");e.textContent=x}
-["from","to"].forEach(id=>$(id).addEventListener("change",updatePrice));["minus","plus","swap"].forEach(id=>$(id).addEventListener("click",updatePrice));
+$("minus").onclick=()=>{S.seats=Math.max(1,S.seats-1);$("sn").textContent=S.seats;upd()};
+$("plus").onclick=()=>{S.seats=Math.min(C.maxSeats,S.seats+1);$("sn").textContent=S.seats;upd()};
 let msg="";
 $("go").onclick=()=>{
  const name=$("name").value.trim(),f=$("from").value,t=$("to").value,m=[];
@@ -264,14 +272,13 @@ $("go").onclick=()=>{
  if(m.length){$("err").textContent="Please fill in: "+m.join(", ")+".";return}
  if(closed(S.day,S.time)){S.time=null;drawSlots();$("err").textContent="That time has just closed. Please pick another time.";return}
  $("err").textContent="";
- msg=["SFG BOOKING REQUEST","Name: "+name,"From: "+f,"To: "+t,"Day: "+days[S.day].sub,"Time: "+S.time,"Seats: "+S.seats,"Parcel: "+($("parcel").checked?"Yes":"No")].concat(priceInfo()?["Price: "+cur+priceInfo().p+" per seat ("+cur+priceInfo().p*S.seats+" total)"]:[]).join("\n");
+ msg=["SFG BOOKING REQUEST","Name: "+name,"From: "+f,"To: "+t,"Day: "+days[S.day].sub,"Time: "+S.time,"Seats: "+S.seats,...pl(),"Parcel: "+($("parcel").checked?"Yes":"No")].join("\n");
  const u="https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(msg);
  $("again").href=u;$("form").hidden=true;$("done").hidden=false;scrollTo(0,0);
  if(!window.open(u,"_blank"))location.href=u};
 $("copy").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(msg).then(()=>$("copy").textContent="Copied")};
 $("new").onclick=()=>location.reload();
-const pr=t=>{const i=info(t);if(!i.p)return"";return`<b class="pr">${cur}${i.p}<small>${i.h?(C.priceLabel||"meeting point"):"per seat"}</small>${i.h?`${cur}${i.h}<small>${C.homeLabel||"home"}</small>`:""}</b>`};
-$("routes").innerHTML=names.map(t=>`<li class="${open(t)?"o":""}"><span>${t}</span><em>${open(t)?"Open":"Coming soon"}</em>${pr(t)}</li>`).join("");
+$("routes").innerHTML=names.map(t=>`<li class="${open(t)?"o":""}"><span>${t}</span><em>${open(t)?"Open"+(P[t]!=null?" · "+cur+P[t]:""):"Coming soon"}</em>${open(t)&&HP[t]!=null?"<small>To your home "+cur+HP[t]+"</small>":""}</li>`).join("");
 document.querySelectorAll("[data-wa]").forEach(a=>a.href="https://wa.me/"+C.whatsapp);
 document.querySelectorAll("[data-call2]").forEach(a=>a.href="tel:+"+C.whatsapp);
 document.querySelectorAll("[data-call]").forEach(a=>a.href="tel:+"+C.callNumber);

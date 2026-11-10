@@ -6,6 +6,12 @@
 //  Keep the quotes and the comma at the end of each line.
 //  Every town works both ways (Windhoek to town, town to Windhoek).
 //  Then click "Commit changes". The site updates in about 1 minute.
+//
+//  TO CHANGE A PRICE: edit the number next to the town in "prices" below
+//  (price per seat, in N$, one way, same both directions).
+//  Prices show in "Where we go" and under From/To on the booking form.
+//  homePrices = price per seat when the passenger is taken to their home.
+//  Delete a town's line to hide its price. Keep the quotes and the commas.
 // ============================================================
 window.SFG = {
   whatsapp: "264812385723",       // secretary WhatsApp (no + and no leading 0)
@@ -15,6 +21,20 @@ window.SFG = {
   maxSeats: 8,                    // most seats one booking can ask for
   cutoffMinutes: 60,              // bookings close 1 hour before departure
   slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
+
+  currency: "N$",
+  homeLabel: "Home drop-off",
+
+  prices: {
+    "Rehoboth": 80,
+    "Swakopmund": 250,
+    "Walvis Bay": 250
+  },
+
+  homePrices: {
+    "Swakopmund": 260,
+    "Walvis Bay": 260
+  },
 
   towns: {
     "Rehoboth": "open",

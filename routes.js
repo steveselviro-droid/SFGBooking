@@ -1,19 +1,10 @@
 // ============================================================
-//  SFG ROUTES & PRICES — the only file you need to edit.
+//  SF&G ROUTES — the only file you need to edit.
 //
-//  OPEN OR CLOSE A ROUTE (the "towns" list):
-//     change "coming soon" to "open" next to the town, or back again.
-//
-//  CHANGE A PRICE (the "prices" list):
-//     change the number next to the town. Numbers only, no quotes,
-//     no "N$". Price is per seat, the same each way (Windhoek <-> town).
-//
-//  HOME DROP-OFF PRICE (the "homePrices" list):
-//     the price per seat if the passenger is dropped at their home.
-//     Delete a town's line to remove the home option for that town.
-//
-//  Keep the quotes around the town names and the comma at the end of
-//  each line (but no comma after the last line in a list).
+//  TO OPEN A ROUTE:   change "coming soon" to "open" next to the town.
+//  TO CLOSE A ROUTE:  change "open" back to "coming soon".
+//  Keep the quotes and the comma at the end of each line.
+//  Every town works both ways (Windhoek to town, town to Windhoek).
 //  Then click "Commit changes". The site updates in about 1 minute.
 // ============================================================
 window.SFG = {
@@ -23,10 +14,8 @@ window.SFG = {
   hub: "Windhoek",
   maxSeats: 8,                    // most seats one booking can ask for
   cutoffMinutes: 60,              // bookings close 1 hour before departure
-  currency: "N$",
   slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
-  // ---- ROUTES: "open" or "coming soon" ----
   towns: {
     "Rehoboth": "open",
     "Okahandja": "coming soon",
@@ -44,18 +33,5 @@ window.SFG = {
     "Karibib": "coming soon",
     "Okakarara": "coming soon",
     "Khorixas": "coming soon"
-  },
-
-  // ---- PRICES: per seat, N$ ----
-  prices: {
-    "Rehoboth": 80,
-    "Swakopmund": 250,
-    "Walvis Bay": 250
-  },
-
-  // ---- HOME DROP-OFF PRICES: per seat, N$ ----
-  homePrices: {
-    "Swakopmund": 260,
-    "Walvis Bay": 260
   }
 };

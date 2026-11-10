@@ -10,7 +10,9 @@
 //  TO CHANGE A PRICE: edit the number next to the town in "prices" below
 //  (price per seat, in N$, one way, same both directions).
 //  Prices show in "Where we go" and under From/To on the booking form.
-//  homePrices = price per seat when the passenger is taken to their home.
+//  homePrices = price per seat when the passenger is taken all the way home.
+//  Customers get an "Until home" tick box on the form; ticking it uses this price.
+//  The price and total are also written into the WhatsApp booking message.
 //  Delete a town's line to hide its price. Keep the quotes and the commas.
 // ============================================================
 window.SFG = {
@@ -23,7 +25,7 @@ window.SFG = {
   slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   currency: "N$",
-  homeLabel: "Home drop-off",
+  homeLabel: "Until home",
 
   prices: {
     "Rehoboth": 80,
@@ -39,8 +41,8 @@ window.SFG = {
   towns: {
     "Rehoboth": "open",
     "Okahandja": "coming soon",
-    "Swakopmund": "open",
-    "Walvis Bay": "open",
+    "Swakopmund": "coming soon",
+    "Walvis Bay": "coming soon",
     "Otjiwarongo": "coming soon",
     "Tsumeb": "coming soon",
     "Mariental": "coming soon",

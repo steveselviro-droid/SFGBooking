@@ -19,6 +19,7 @@ window.SFG = {
   whatsapp: "264812385723",       // secretary WhatsApp (no + and no leading 0)
   callNumber: "264812128606",     // alternative number for calls
   email: "sfgbooking97@gmail.com",
+  instagram: "https://www.instagram.com/sfgbooking/",   // Instagram link (button in "Talk to us")
   hub: "Windhoek",
   maxSeats: 8,                    // most seats one booking can ask for
   cutoffMinutes: 60,              // bookings close 1 hour before departure
@@ -41,8 +42,8 @@ window.SFG = {
   towns: {
     "Rehoboth": "open",
     "Okahandja": "coming soon",
-    "Swakopmund": "open",
-    "Walvis Bay": "open",
+    "Swakopmund": "coming soon",
+    "Walvis Bay": "coming soon",
     "Otjiwarongo": "coming soon",
     "Tsumeb": "coming soon",
     "Mariental": "coming soon",

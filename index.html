@@ -217,6 +217,7 @@ footer a{color:#fff}
 <a class="btn l" data-call2>Call 081 238 5723</a>
 <a class="btn l" data-call>Call 081 212 8606</a>
 <a class="btn l" data-mail>sfgbooking97@gmail.com</a>
+<a class="btn l" data-ig href="https://www.instagram.com/sfgbooking/" target="_blank" rel="noopener">Follow us on Instagram @sfgbooking</a>
 <a class="btn o" href="SFG_Client_Pamphlet.pdf" download="SFG_Client_Pamphlet.pdf">⬇ Download our pamphlet (PDF)</a>
 </div></section>
 
@@ -285,6 +286,7 @@ $("routes").innerHTML=names.map(t=>`<li class="${open(t)?"o":""}"><span>${t}</sp
 document.querySelectorAll("[data-wa]").forEach(a=>a.href="https://wa.me/"+C.whatsapp);
 document.querySelectorAll("[data-call2]").forEach(a=>a.href="tel:+"+C.whatsapp);
 document.querySelectorAll("[data-call]").forEach(a=>a.href="tel:+"+C.callNumber);
+document.querySelectorAll("[data-ig]").forEach(a=>{if(C.instagram)a.href=C.instagram});
 document.querySelectorAll("[data-mail]").forEach(a=>a.href="mailto:"+C.email);
 </script>
 </body></html>

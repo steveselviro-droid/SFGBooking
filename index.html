@@ -96,10 +96,8 @@ footer a{color:#fff}
 .days{grid-template-columns:repeat(2,1fr)}
 .soon{background:#fff8e1;color:#5d4037;border-left:4px solid var(--o);border-radius:8px;padding:8px 10px;font-size:14px;margin-top:8px}
 .go:disabled{background:#8a98a8;cursor:not-allowed}
-.price{font-weight:700;color:var(--n);font-size:15px;margin-top:8px}
-.price:empty{display:none}
-.chk[hidden]{display:none}
-.price small{display:block;font-weight:500;color:var(--m);font-size:13px}
+#rmap{width:100%;height:auto;display:block;background:radial-gradient(circle at 50% 50%,#0d1c2a,#000 75%);border:1px solid #1f2d3a;border-radius:14px;margin:0 0 10px}
+.leg{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:14px;color:#9fb0c0;margin-bottom:16px}.leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 </style></head>
 <body>
 <nav class="nav"><a class="brand" href="#book">SFG</a><div class="links"><a href="#book">Book</a><a href="#how">How it works</a><a href="#why">Why SFG</a><a href="#where">Where we go</a><a href="#faq">Questions</a><a href="#terms">Terms</a><a href="#contact">Contact</a></div></nav>
@@ -109,8 +107,6 @@ footer a{color:#fff}
 <label for="name">Your name</label>
 <input type="text" id="name" placeholder="Type your name" autocomplete="given-name">
 <div class="ft"><div><label for="from">From</label><select id="from"></select></div><button class="swap" id="swap" type="button" aria-label="Swap from and to">⇄</button><div><label for="to">To</label><select id="to"></select></div></div>
-<p class="price" id="price" aria-live="polite"></p>
-<label class="chk" id="homeBox" hidden><input type="checkbox" id="home"><span id="homeTxt"></span></label>
 <label>Day</label><div class="days" id="days"></div>
 <label>Time</label><div class="slots" id="slots"></div><p class="hint" id="hint"></p>
 <div class="r2"><div class="seats"><span>Seats</span><button type="button" id="minus" aria-label="Fewer seats">−</button><b id="sn" aria-live="polite">1</b><button type="button" id="plus" aria-label="More seats">+</button></div><label class="chk"><input type="checkbox" id="parcel"> Sending a parcel too</label></div>
@@ -151,6 +147,8 @@ footer a{color:#fff}
 <section id="where"><div class="w">
 <h2>Where we go</h2>
 <p style="margin-bottom:12px">Every route works both ways: <b>Windhoek ⇄ town</b>.</p>
+<svg id="rmap" viewBox="0 0 124 112" role="img" aria-label="Animated map: cars travelling between Windhoek and each open route"></svg>
+<div class="leg"><span><i style="background:#e58e26"></i>Leaving Windhoek</span><span><i style="background:#8fd3ff"></i>Heading to Windhoek</span><span><i style="background:#4a5866"></i>Coming soon</span></div>
 <ul class="rt" id="routes"></ul>
 </div></section>
 
@@ -217,7 +215,6 @@ footer a{color:#fff}
 <a class="btn l" data-call2>Call 081 238 5723</a>
 <a class="btn l" data-call>Call 081 212 8606</a>
 <a class="btn l" data-mail>sfgbooking97@gmail.com</a>
-<a class="btn l" data-ig href="https://www.instagram.com/sfgbooking/" target="_blank" rel="noopener">Follow us on Instagram @sfgbooking</a>
 <a class="btn o" href="SFG_Client_Pamphlet.pdf" download="SFG_Client_Pamphlet.pdf">⬇ Download our pamphlet (PDF)</a>
 </div></section>
 
@@ -230,9 +227,6 @@ const C=window.SFG,$=i=>document.getElementById(i);
 if(!C){document.body.innerHTML='<p style="padding:30px;font:20px sans-serif">The booking form could not load. Please WhatsApp <b>081 238 5723</b>.</p>';throw 0}
 C.maxAheadHours=C.maxAheadHours||24;
 const H=C.hub,T=C.towns,S={day:null,time:null,seats:1},open=t=>t===H||T[t]==="open";
-const P=C.prices||{},HP=C.homePrices||{},CUR=C.currency||"N$";
-const money=n=>CUR+n;
-const priceOf=(a,b)=>{const t=a===H?b:b===H?a:null;return t&&P[t]!=null?{t,p:P[t],h:HP[t]}:null};
 const names=Object.keys(T).sort((a,b)=>(open(b)-open(a))||a.localeCompare(b));
 if(!names.some(open)){$("soon").hidden=false;$("go").disabled=true;$("go").textContent="Booking opens soon"}
 const wn=()=>new Date(new Date().toLocaleString("en-US",{timeZone:"Africa/Windhoek"}));
@@ -245,13 +239,6 @@ function fillTo(){const f=$("from").value,e=$("to");
  e.disabled=false;
  if(f!==H){e.innerHTML=opt(H,H);e.value=H;return}
  e.innerHTML=opt("","Pick a town")+list()}
-function showPrice(){const r=priceOf($("from").value,$("to").value),e=$("price"),hb=$("homeBox");
- if(!r){e.innerHTML="";hb.hidden=true;$("home").checked=false;return}
- const hm=r.h!=null;hb.hidden=!hm;if(!hm)$("home").checked=false;
- if(hm)$("homeTxt").textContent=(C.homeLabel||"Until home")+" ("+money(r.h)+" per seat)";
- const p=hm&&$("home").checked?r.h:r.p;
- let h=money(p)+" per seat";if(S.seats>1)h+=" · "+money(p*S.seats)+" for "+S.seats+" seats";
- e.innerHTML=h}
 const gap=(i,t)=>{const[h,m]=t.split(":"),d=new Date(days[i].d);d.setHours(+h,+m,0,0);return(d-wn())/6e4};
 const closed=(i,t)=>{const g=gap(i,t);return g<C.cutoffMinutes||g>C.maxAheadHours*60};
 function drawDays(){$("days").innerHTML=days.map((x,i)=>`<button type="button" class="${S.day===i?"on":""}" data-i="${i}">${x.top}<small>${x.sub}</small></button>`).join("")}
@@ -261,14 +248,12 @@ function drawSlots(){let n=0;
 $("from").innerHTML=opt("","Pick a town")+opt(H,H)+list();fillTo();
 S.day=[0,1].find(i=>C.slots.some(t=>!closed(i,t)));if(S.day===undefined)S.day=1;
 drawDays();drawSlots();
-$("from").onchange=()=>{fillTo();showPrice()};$("to").onchange=showPrice;$("home").onchange=showPrice;
-$("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f;showPrice()};
+$("from").onchange=fillTo;
+$("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f};
 $("days").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.day=+b.dataset.i;drawDays();drawSlots()};
 $("slots").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;S.time=b.dataset.t;drawSlots()};
-$("minus").onclick=()=>{S.seats=Math.max(1,S.seats-1);$("sn").textContent=S.seats;showPrice()};
-$("plus").onclick=()=>{S.seats=Math.min(C.maxSeats,S.seats+1);$("sn").textContent=S.seats;showPrice()};
-const pl=(f,t)=>{const r=priceOf(f,t);if(!r)return[];const hm=r.h!=null&&$("home").checked,p=hm?r.h:r.p;
- return["Drop-off: "+(hm?(C.homeLabel||"Until home"):"Departure point"),"Price: "+money(p)+" per seat","Total: "+money(p*S.seats)]};
+$("minus").onclick=()=>{S.seats=Math.max(1,S.seats-1);$("sn").textContent=S.seats};
+$("plus").onclick=()=>{S.seats=Math.min(C.maxSeats,S.seats+1);$("sn").textContent=S.seats};
 let msg="";
 $("go").onclick=()=>{
  const name=$("name").value.trim(),f=$("from").value,t=$("to").value,m=[];
@@ -276,17 +261,48 @@ $("go").onclick=()=>{
  if(m.length){$("err").textContent="Please fill in: "+m.join(", ")+".";return}
  if(closed(S.day,S.time)){S.time=null;drawSlots();$("err").textContent="That time has just closed. Please pick another time.";return}
  $("err").textContent="";
- msg=["SFG BOOKING REQUEST","Name: "+name,"From: "+f,"To: "+t,"Day: "+days[S.day].sub,"Time: "+S.time,"Seats: "+S.seats,"Parcel: "+($("parcel").checked?"Yes":"No")].concat(pl(f,t)).join("\n");
+ msg=["SFG BOOKING REQUEST","Name: "+name,"From: "+f,"To: "+t,"Day: "+days[S.day].sub,"Time: "+S.time,"Seats: "+S.seats,"Parcel: "+($("parcel").checked?"Yes":"No")].join("\n");
  const u="https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(msg);
  $("again").href=u;$("form").hidden=true;$("done").hidden=false;scrollTo(0,0);
  if(!window.open(u,"_blank"))location.href=u};
 $("copy").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(msg).then(()=>$("copy").textContent="Copied")};
 $("new").onclick=()=>location.reload();
-$("routes").innerHTML=names.map(t=>`<li class="${open(t)?"o":""}"><span>${t}</span><em>${open(t)?"Open":"Coming soon"}${P[t]!=null?" · "+money(P[t]):""}${HP[t]!=null?" · home "+money(HP[t]):""}</em></li>`).join("");
+$("routes").innerHTML=names.map(t=>`<li class="${open(t)?"o":""}"><span>${t}</span><em>${open(t)?"Open":"Coming soon"}</em></li>`).join("");
 document.querySelectorAll("[data-wa]").forEach(a=>a.href="https://wa.me/"+C.whatsapp);
 document.querySelectorAll("[data-call2]").forEach(a=>a.href="tel:+"+C.whatsapp);
 document.querySelectorAll("[data-call]").forEach(a=>a.href="tel:+"+C.callNumber);
-document.querySelectorAll("[data-ig]").forEach(a=>{if(C.instagram)a.href=C.instagram});
 document.querySelectorAll("[data-mail]").forEach(a=>a.href="mailto:"+C.email);
+</script>
+<script>
+(function(){
+const C=window.SFG,svg=document.getElementById("rmap");if(!C||!svg)return;
+const NS="http://www.w3.org/2000/svg",el=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
+const POS={"Swakopmund":[13,40],"Walvis Bay":[11,53],"Karibib":[30,34],"Okahandja":[45,40],"Osona Village":[47,48],"Khorixas":[22,23],"Otjiwarongo":[50,24],"Okakarara":[64,30],"Tsumeb":[62,12],"Grootfontein":[78,18],"Oshakati":[42,7],"Gobabis":[88,56],"Groot Aub":[44,63],"Rehoboth":[46,73],"Mariental":[52,87],"Keetmanshoop":[50,102]};
+const HUB=[50,56],g=el("g",{transform:"translate(17 0)"}),cars=[];let n=0;
+const towns=Object.keys(C.towns||{}).filter(t=>POS[t]);
+towns.forEach(t=>{const p=POS[t],open=C.towns[t]==="open";
+ el("line",{x1:HUB[0],y1:HUB[1],x2:p[0],y2:p[1],stroke:open?"#2d4a63":"#222c36","stroke-width":open?.7:.4,"stroke-dasharray":open?"":"1.2 1.6"},g)});
+towns.forEach((t,i)=>{const p=POS[t],open=C.towns[t]==="open";
+ el("circle",{cx:p[0],cy:p[1],r:open?1.5:1,fill:open?"#fff":"#4a5866"},g);
+ const left=p[0]<HUB[0],tx=el("text",{x:p[0]+(left?-2.6:2.6),y:p[1]+1.1,"text-anchor":left?"end":"start","font-size":3.1,"font-weight":700,"font-family":"system-ui,sans-serif",fill:open?"#e8eef4":"#5d6b78",stroke:"#000","stroke-width":.9,"paint-order":"stroke"},g);tx.textContent=t;
+ if(!open)return;
+ const dx=p[0]-HUB[0],dy=p[1]-HUB[1],len=Math.hypot(dx,dy),P=5+len/9+(i%3)*.8;
+ [1,0].forEach(out=>{const c=el("g",{},g);
+  el("rect",{x:-1.9,y:-.95,width:3.8,height:1.9,rx:.6,fill:out?"#e58e26":"#8fd3ff",stroke:"#000","stroke-width":.25},c);
+  el("rect",{x:.2,y:-.7,width:1.1,height:1.4,rx:.3,fill:"#0a1620"},c);
+  cars.push({c,out,P,ph:(n*.37+(out?0:.5))%1,dx,dy,len});});n++;});
+el("circle",{cx:HUB[0],cy:HUB[1],r:2.6,fill:"#e58e26"},g);
+const ring=el("circle",{cx:HUB[0],cy:HUB[1],r:2.6,fill:"none",stroke:"#e58e26","stroke-width":.5},g);
+el("animate",{attributeName:"r",values:"2.6;7;2.6",dur:"2.4s",repeatCount:"indefinite"},ring);
+el("animate",{attributeName:"opacity",values:"1;0;1",dur:"2.4s",repeatCount:"indefinite"},ring);
+const w=el("text",{x:HUB[0]+3.6,y:HUB[1]+4.6,"font-size":3.8,"font-weight":900,"font-family":"system-ui,sans-serif",fill:"#fff",stroke:"#000","stroke-width":1,"paint-order":"stroke"},g);w.textContent="Windhoek";
+function place(t){cars.forEach(k=>{const p=((t/k.P)+k.ph)%1,q=k.out?p:1-p,nx=-k.dy/k.len,ny=k.dx/k.len,o=k.out?.9:-.9;
+ const x=HUB[0]+k.dx*q+nx*o,y=HUB[1]+k.dy*q+ny*o,a=Math.atan2(k.dy,k.dx)*180/Math.PI+(k.out?0:180);
+ k.c.setAttribute("transform","translate("+x.toFixed(2)+" "+y.toFixed(2)+") rotate("+a.toFixed(1)+")");
+ k.c.setAttribute("opacity",Math.min(1,p/.07,(1-p)/.07).toFixed(2))})}
+if(matchMedia("(prefers-reduced-motion: reduce)").matches){place(3);return}
+let vis=true;if("IntersectionObserver"in window)new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(svg);
+(function f(ms){if(vis)place(ms/1000);requestAnimationFrame(f)})(0);
+})();
 </script>
 </body></html>

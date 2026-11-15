@@ -23,7 +23,7 @@ window.SFG = {
   hub: "Windhoek",
   maxSeats: 8,                    // most seats one booking can ask for
   cutoffMinutes: 60,              // bookings close 1 hour before departure
-  slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
+  slots: ["06:00", "07:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   currency: "N$",
   homeLabel: "Until home",
@@ -36,11 +36,13 @@ window.SFG = {
 
   homePrices: {
     "Swakopmund": 260,
+    "Rehoboth": 90,
     "Walvis Bay": 260
   },
 
   towns: {
     "Rehoboth": "open",
+    "Rundu": "Coming soon",
     "Okahandja": "coming soon",
     "Swakopmund": "open",
     "Walvis Bay": "open",

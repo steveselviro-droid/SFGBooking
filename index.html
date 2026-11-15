@@ -98,6 +98,9 @@ footer a{color:#fff}
 .go:disabled{background:#8a98a8;cursor:not-allowed}
 .price{font-weight:700;color:var(--n);font-size:15px;margin-top:8px}
 .price:empty{display:none}
+.dp{display:block;width:100%;font:inherit;font-size:16px;font-weight:700;min-height:46px;border:2px solid var(--b);border-radius:10px;padding:4px 10px;background:#fff;color:var(--n)}
+.dp.on{background:var(--n);border-color:var(--n);color:#fff;color-scheme:dark}
+.dl{margin-top:10px}
 .chk[hidden]{display:none}
 #rmap{width:100%;height:auto;display:block;background:radial-gradient(circle at 50% 50%,#0d1c2a,#000 75%);border:1px solid #1f2d3a;border-radius:14px;margin:0 0 10px}
 .leg{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:14px;color:#9fb0c0;margin-bottom:16px}.leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
@@ -113,6 +116,7 @@ footer a{color:#fff}
 <p class="price" id="price" aria-live="polite"></p>
 <label class="chk" id="homeBox" hidden><input type="checkbox" id="home"><span id="homeTxt"></span></label>
 <label>Day</label><div class="days" id="days"></div>
+<label for="dpick" class="dl">Or choose a later date</label><input type="date" id="dpick" class="dp">
 <label>Time</label><div class="slots" id="slots"></div><p class="hint" id="hint"></p>
 <div class="r2"><div class="seats"><span>Seats</span><button type="button" id="minus" aria-label="Fewer seats">−</button><b id="sn" aria-live="polite">1</b><button type="button" id="plus" aria-label="More seats">+</button></div><label class="chk"><input type="checkbox" id="parcel"> Sending a parcel too</label></div>
 <p class="soon" id="soon" hidden>All routes are coming soon. WhatsApp 081 238 5723 and we will tell you when yours opens.</p>
@@ -146,7 +150,7 @@ footer a{color:#fff}
 <div><b>Know your driver</b>Name, plate, car model and colour before you travel.</div>
 <div><b>Safe night travel</b>Book ahead and get a confirmed, traceable ride.</div>
 </div>
-<div class="rule" style="margin-top:18px"><b>Bookings close 1 hour before the trip</b>For the 17:00 trip, book and pay by 16:00. You can book up to 24 hours ahead.</div>
+<div class="rule" style="margin-top:18px"><b>Bookings close 1 hour before the trip</b>For the 17:00 trip, book and pay by 16:00. You can book up to <span data-ahead>90 days</span> ahead.</div>
 </div></section>
 
 <section id="where"><div class="w">
@@ -226,12 +230,12 @@ footer a{color:#fff}
 
 <footer>© 2026 SFG (Safe, Fast &amp; Guaranteed) · Windhoek, Namibia</footer>
 
-<script>window.SFG={whatsapp:"264812385723",callNumber:"264812128606",email:"sfgbooking97@gmail.com",hub:"Windhoek",maxSeats:8,cutoffMinutes:60,maxAheadHours:24,slots:["06:00","07:00","08:00","11:00","14:00","17:00","18:00","20:00","21:00"],towns:{"Rehoboth":"coming soon","Okahandja":"coming soon","Swakopmund":"coming soon","Walvis Bay":"coming soon","Otjiwarongo":"coming soon","Tsumeb":"coming soon","Mariental":"coming soon","Keetmanshoop":"coming soon","Gobabis":"coming soon","Osona Village":"coming soon","Groot Aub":"coming soon","Oshakati":"coming soon","Grootfontein":"coming soon","Karibib":"coming soon","Okakarara":"coming soon","Khorixas":"coming soon"}};</script>
+<script>window.SFG={whatsapp:"264812385723",callNumber:"264812128606",email:"sfgbooking97@gmail.com",hub:"Windhoek",maxSeats:12,cutoffMinutes:60,maxAheadDays:90,slots:["06:00","07:00","08:00","11:00","14:00","17:00","18:00","20:00","21:00"],towns:{"Rehoboth":"coming soon","Okahandja":"coming soon","Swakopmund":"coming soon","Walvis Bay":"coming soon","Otjiwarongo":"coming soon","Tsumeb":"coming soon","Mariental":"coming soon","Keetmanshoop":"coming soon","Gobabis":"coming soon","Osona Village":"coming soon","Groot Aub":"coming soon","Oshakati":"coming soon","Grootfontein":"coming soon","Karibib":"coming soon","Okakarara":"coming soon","Khorixas":"coming soon"}};</script>
 <script src="routes.js"></script>
 <script>
 const C=window.SFG,$=i=>document.getElementById(i);
 if(!C){document.body.innerHTML='<p style="padding:30px;font:20px sans-serif">The booking form could not load. Please WhatsApp <b>081 238 5723</b>.</p>';throw 0}
-C.maxAheadHours=C.maxAheadHours||24;
+C.maxAheadDays=C.maxAheadDays||90;C.maxAheadHours=C.maxAheadDays*24;
 const H=C.hub,T=C.towns,S={day:null,time:null,seats:1},open=t=>t===H||T[t]==="open";
 const P=C.prices||{},HP=C.homePrices||{},CUR=C.currency||"N$";
 const money=n=>CUR+n;
@@ -239,7 +243,7 @@ const priceOf=(a,b)=>{const t=a===H?b:b===H?a:null;return t&&P[t]!=null?{t,p:P[t
 const names=Object.keys(T).sort((a,b)=>(open(b)-open(a))||a.localeCompare(b));
 if(!names.some(open)){$("soon").hidden=false;$("go").disabled=true;$("go").textContent="Booking opens soon"}
 const wn=()=>new Date(new Date().toLocaleString("en-US",{timeZone:"Africa/Windhoek"}));
-const base=wn(),days=[0,1].map(i=>{const d=new Date(base);d.setDate(d.getDate()+i);return{d,top:["Today","Tomorrow"][i],sub:d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"}).replace(",","")}});
+const base=wn(),ND=C.maxAheadDays,days=Array.from({length:ND},(_,i)=>{const d=new Date(base);d.setDate(d.getDate()+i);const o={weekday:"short",day:"numeric",month:"short"};if(d.getFullYear()!==base.getFullYear())o.year="numeric";const sub=d.toLocaleDateString("en-GB",o).replace(",","");return{d,top:["Today","Tomorrow"][i]||sub,sub}}),ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const opt=(v,l,x)=>`<option value="${v}"${x?" disabled":""}>${l}</option>`;
 const lab=t=>open(t)?t:t+" (Coming soon)";
 const list=()=>names.map(t=>opt(t,lab(t),!open(t))).join("");
@@ -259,15 +263,18 @@ const pl=(f,t)=>{const r=priceOf(f,t);if(!r)return[];const hm=r.h!=null&&$("home
  return["Drop-off: "+(hm?(C.homeLabel||"Until home"):"Departure point"),"Price: "+money(p)+" per seat","Total: "+money(p*S.seats)]};
 const gap=(i,t)=>{const[h,m]=t.split(":"),d=new Date(days[i].d);d.setHours(+h,+m,0,0);return(d-wn())/6e4};
 const closed=(i,t)=>{const g=gap(i,t);return g<C.cutoffMinutes||g>C.maxAheadHours*60};
-function drawDays(){$("days").innerHTML=days.map((x,i)=>`<button type="button" class="${S.day===i?"on":""}" data-i="${i}">${x.top}<small>${x.sub}</small></button>`).join("")}
+function drawDays(){const far=S.day>1;$("dpick").classList.toggle("on",far);$("dpick").value=far?ymd(days[S.day].d):"";$("days").innerHTML=days.slice(0,2).map((x,i)=>`<button type="button" class="${S.day===i?"on":""}" data-i="${i}">${x.top}<small>${x.sub}</small></button>`).join("")}
 function drawSlots(){let n=0;
  $("slots").innerHTML=C.slots.map(t=>{const c=closed(S.day,t);if(!c)n++;if(c&&S.time===t)S.time=null;return`<button type="button" class="${S.time===t?"on":""}" data-t="${t}"${c?" disabled":""}>${t}${c?"<small>"+(gap(S.day,t)>C.maxAheadHours*60?"Not yet":"Closed")+"</small>":""}</button>`}).join("");
- $("hint").textContent=n?"Book up to "+C.maxAheadHours+" hours ahead. Closes 1 hour before the trip.":"No trips left on this day. Please pick another day."}
+ $("hint").textContent=n?"Book up to "+C.maxAheadDays+" days ahead. Closes 1 hour before the trip.":"No trips left on this day. Please pick another day."}
 $("from").innerHTML=opt("","Pick a town")+opt(H,H)+list();fillTo();
 S.day=[0,1].find(i=>C.slots.some(t=>!closed(i,t)));if(S.day===undefined)S.day=1;
 drawDays();drawSlots();
 $("from").onchange=()=>{fillTo();showPrice()};$("to").onchange=showPrice;$("home").onchange=showPrice;
 $("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f;showPrice()};
+$("dpick").min=ymd(days[0].d);$("dpick").max=ymd(days[ND-1].d);
+document.querySelectorAll("[data-ahead]").forEach(e=>e.textContent=ND+" days");
+$("dpick").onchange=()=>{const v=$("dpick").value;if(!v)return;const[y,m,d]=v.split("-").map(Number),i=Math.round((Date.UTC(y,m-1,d)-Date.UTC(base.getFullYear(),base.getMonth(),base.getDate()))/864e5);if(i<0||i>=ND){drawDays();return}S.day=i;drawDays();drawSlots()};
 $("days").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.day=+b.dataset.i;drawDays();drawSlots()};
 $("slots").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;S.time=b.dataset.t;drawSlots()};
 $("minus").onclick=()=>{S.seats=Math.max(1,S.seats-1);$("sn").textContent=S.seats;showPrice()};
@@ -296,7 +303,7 @@ document.querySelectorAll("[data-mail]").forEach(a=>a.href="mailto:"+C.email);
 (function(){
 const C=window.SFG,svg=document.getElementById("rmap");if(!C||!svg)return;
 const NS="http://www.w3.org/2000/svg",el=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
-const POS={"Swakopmund":[13,40],"Walvis Bay":[11,53],"Karibib":[30,34],"Okahandja":[45,40],"Osona Village":[47,48],"Khorixas":[22,23],"Otjiwarongo":[50,24],"Okakarara":[64,30],"Tsumeb":[62,12],"Grootfontein":[78,18],"Oshakati":[42,7],"Gobabis":[88,56],"Groot Aub":[44,63],"Rehoboth":[46,73],"Mariental":[52,87],"Keetmanshoop":[50,102]};
+const POS={"Swakopmund":[13,40],"Walvis Bay":[11,53],"Karibib":[30,34],"Okahandja":[45,40],"Osona Village":[47,48],"Khorixas":[22,23],"Otjiwarongo":[50,24],"Okakarara":[64,30],"Tsumeb":[62,12],"Grootfontein":[78,18],"Oshakati":[42,7],"Gobabis":[88,56],"Groot Aub":[44,63],"Rehoboth":[46,73],"Mariental":[52,87],"Keetmanshoop":[50,102],"Rundu":[92,8],"Outjo":[37,15],"Kalkrand":[48,80]};
 const HUB=[50,56],g=el("g",{transform:"translate(17 0)"}),cars=[];let n=0;
 const towns=Object.keys(C.towns||{}).filter(t=>POS[t]);
 towns.forEach(t=>{const p=POS[t],open=C.towns[t]==="open";

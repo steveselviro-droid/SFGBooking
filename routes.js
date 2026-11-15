@@ -21,9 +21,10 @@ window.SFG = {
   email: "sfgbooking97@gmail.com",
   instagram: "https://www.instagram.com/sfgbooking/",   // Instagram link (button in "Talk to us")
   hub: "Windhoek",
-  maxSeats: 8,                    // most seats one booking can ask for
+  maxSeats: 12,                   // most seats one booking can ask for
+  maxAheadDays: 90,               // how many days ahead people can book
   cutoffMinutes: 60,              // bookings close 1 hour before departure
-  slots: ["06:00", "07:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
+  slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   currency: "N$",
   homeLabel: "Until home",
@@ -36,27 +37,28 @@ window.SFG = {
 
   homePrices: {
     "Swakopmund": 260,
-    "Rehoboth": 90,
     "Walvis Bay": 260
   },
 
   towns: {
     "Rehoboth": "open",
-    "Rundu": "Coming soon",
     "Okahandja": "coming soon",
-    "Swakopmund": "open",
-    "Walvis Bay": "open",
+    "Swakopmund": "coming soon",
+    "Walvis Bay": "coming soon",
     "Otjiwarongo": "coming soon",
     "Tsumeb": "coming soon",
     "Mariental": "coming soon",
     "Keetmanshoop": "coming soon",
     "Gobabis": "coming soon",
     "Osona Village": "coming soon",
-    "Groot Aub": "open",
+    "Groot Aub": "coming soon",
     "Oshakati": "coming soon",
     "Grootfontein": "coming soon",
     "Karibib": "coming soon",
     "Okakarara": "coming soon",
-    "Khorixas": "coming soon"
+    "Khorixas": "coming soon",
+    "Rundu": "coming soon",
+    "Outjo": "coming soon",
+    "Kalkrand": "coming soon"
   }
 };

@@ -52,7 +52,7 @@ window.SFG = {
     "Keetmanshoop": "coming soon",
     "Gobabis": "coming soon",
     "Osona Village": "coming soon",
-    "Groot Aub": "coming soon",
+    "Groot Aub": "open",
     "Oshakati": "coming soon",
     "Grootfontein": "coming soon",
     "Karibib": "coming soon",

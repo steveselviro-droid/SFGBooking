@@ -42,23 +42,23 @@ window.SFG = {
 
   towns: {
     "Rehoboth": "open",
-    "Okahandja": "coming soon",
+    "Okahandja": "open",
     "Swakopmund": "open",
     "Walvis Bay": "open",
-    "Otjiwarongo": "coming soon",
+    "Otjiwarongo": "open",
     "Tsumeb": "coming soon",
-    "Mariental": "coming soon",
-    "Keetmanshoop": "coming soon",
+    "Mariental": "open",
+    "Keetmanshoop": "open",
     "Gobabis": "coming soon",
     "Osona Village": "open",
-    "Groot Aub": "coming soon",
+    "Groot Aub": "open",
     "Oshakati": "coming soon",
-    "Grootfontein": "coming soon",
+    "Grootfontein": "open",
     "Karibib": "coming soon",
     "Okakarara": "coming soon",
     "Khorixas": "coming soon",
     "Rundu": "coming soon",
-    "Outjo": "coming soon",
+    "Outjo": "open",
     "Kalkrand": "coming soon"
   }
 };

@@ -77,7 +77,7 @@ window.SFG = {
     "Groot Aub": "open",
     "Oshakati": "coming soon",
     "Grootfontein": "open",
-    "Karibib": "coming soon",
+    "Karibib": "open",
     "Okakarara": "coming soon",
     "Khorixas": "coming soon",
     "Rundu": "coming soon",

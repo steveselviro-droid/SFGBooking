@@ -31,12 +31,35 @@ window.SFG = {
 
   prices: {
     "Rehoboth": 80,
+    "Keetmanshoop": 300,
+    "Groot Aub": 70,
+    "Mariental": 200,
+    "Osona Village": 70,
+    "Otjiwarongo": 250,
+    "Outjo": 350,
+    "Karibib": 170,
+    "Gobabis": 230,
+    "Okahandja": 90,
+    "Oshakati": 450,
+    "Grootfontein": 350,
     "Swakopmund": 250,
     "Walvis Bay": 250
   },
 
   homePrices: {
     "Swakopmund": 260,
+    "Rehoboth": 90,
+    "Keetmanshoop": 310,
+    "Groot Aub": 80,
+    "Mariental": 210,
+    "Osona Village": 80,
+    "Otjiwarongo": 260,
+    "Outjo": 360,
+    "Karibib": 180,
+    "Gobabis": 240,
+    "Okahandja": 100,
+    "Oshakati": 460,
+    "Grootfontein": 360,
     "Walvis Bay": 260
   },
 

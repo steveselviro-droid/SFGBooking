@@ -37,7 +37,7 @@ window.SFG = {
   prices: {
     "Rehoboth": 80,
     "Keetmanshoop": 300,
-    "Groot Aub": 70,
+    "Groot Aub": 60,
     "Mariental": 200,
     "Osona Village": 70,
     "Otjiwarongo": 250,
@@ -55,7 +55,7 @@ window.SFG = {
     "Swakopmund": 260,
     "Rehoboth": 90,
     "Keetmanshoop": 310,
-    "Groot Aub": 80,
+    "Groot Aub": 70,
     "Mariental": 210,
     "Osona Village": 80,
     "Otjiwarongo": 260,

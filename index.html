@@ -150,7 +150,7 @@ footer a{color:#fff}
 <div><b>Know your driver</b>Name, plate, car model and colour before you travel.</div>
 <div><b>Safe night travel</b>Book ahead and get a confirmed, traceable ride.</div>
 </div>
-<div class="rule" style="margin-top:18px"><b>Bookings close 1 hour before the trip</b>For the 17:00 trip, book and pay by 16:00. You can book up to <span data-ahead>90 days</span> ahead.</div>
+<div class="rule" style="margin-top:18px"><b>Bookings close 1 hour before the trip</b>For the 17:00 trip, book and pay by 16:00. You can book up to <span data-ahead>90 days</span> ahead.<span data-late></span></div>
 </div></section>
 
 <section id="where"><div class="w">
@@ -235,7 +235,7 @@ footer a{color:#fff}
 <script>
 const C=window.SFG,$=i=>document.getElementById(i);
 if(!C){document.body.innerHTML='<p style="padding:30px;font:20px sans-serif">The booking form could not load. Please WhatsApp <b>081 238 5723</b>.</p>';throw 0}
-C.maxAheadDays=C.maxAheadDays||90;C.maxAheadHours=C.maxAheadDays*24;
+C.lateSlots=C.lateSlots||["20:00","21:00"];C.lateCutoff=C.lateCutoff||"18:00";C.maxAheadDays=C.maxAheadDays||90;C.maxAheadHours=C.maxAheadDays*24;
 const H=C.hub,T=C.towns,S={day:null,time:null,seats:1},open=t=>t===H||T[t]==="open";
 const P=C.prices||{},HP=C.homePrices||{},CUR=C.currency||"N$";
 const money=n=>CUR+n;
@@ -262,11 +262,12 @@ function showPrice(){const r=priceOf($("from").value,$("to").value),e=$("price")
 const pl=(f,t)=>{const r=priceOf(f,t);if(!r)return[];const hm=r.h!=null&&$("home").checked,p=hm?r.h:r.p;
  return["Drop-off: "+(hm?(C.homeLabel||"Until home"):"Departure point"),"Price: "+money(p)+" per seat","Total: "+money(p*S.seats)]};
 const gap=(i,t)=>{const[h,m]=t.split(":"),d=new Date(days[i].d);d.setHours(+h,+m,0,0);return(d-wn())/6e4};
-const closed=(i,t)=>{const g=gap(i,t);return g<C.cutoffMinutes||g>C.maxAheadHours*60};
+const closed=(i,t)=>{const g=gap(i,t);return g<C.cutoffMinutes||g>C.maxAheadHours*60||(C.lateSlots.includes(t)&&gap(i,C.lateCutoff)<=0)};
+const lateNote=C.lateSlots.length?" Late trips ("+C.lateSlots.join(" and ")+") close at "+C.lateCutoff+" on the day.":"";
 function drawDays(){const far=S.day>1;$("dpick").classList.toggle("on",far);$("dpick").value=far?ymd(days[S.day].d):"";$("days").innerHTML=days.slice(0,2).map((x,i)=>`<button type="button" class="${S.day===i?"on":""}" data-i="${i}">${x.top}<small>${x.sub}</small></button>`).join("")}
 function drawSlots(){let n=0;
  $("slots").innerHTML=C.slots.map(t=>{const c=closed(S.day,t);if(!c)n++;if(c&&S.time===t)S.time=null;return`<button type="button" class="${S.time===t?"on":""}" data-t="${t}"${c?" disabled":""}>${t}${c?"<small>"+(gap(S.day,t)>C.maxAheadHours*60?"Not yet":"Closed")+"</small>":""}</button>`}).join("");
- $("hint").textContent=n?"Book up to "+C.maxAheadDays+" days ahead. Closes 1 hour before the trip.":"No trips left on this day. Please pick another day."}
+ $("hint").textContent=n?"Book up to "+C.maxAheadDays+" days ahead. Closes 1 hour before the trip."+lateNote:"No trips left on this day. Please pick another day."}
 $("from").innerHTML=opt("","Pick a town")+opt(H,H)+list();fillTo();
 S.day=[0,1].find(i=>C.slots.some(t=>!closed(i,t)));if(S.day===undefined)S.day=1;
 drawDays();drawSlots();
@@ -274,6 +275,7 @@ $("from").onchange=()=>{fillTo();showPrice()};$("to").onchange=showPrice;$("home
 $("swap").onclick=()=>{const f=$("from").value,t=$("to").value;if(!f||!t)return;$("from").value=t;fillTo();$("to").value=f;showPrice()};
 $("dpick").min=ymd(days[0].d);$("dpick").max=ymd(days[ND-1].d);
 document.querySelectorAll("[data-ahead]").forEach(e=>e.textContent=ND+" days");
+document.querySelectorAll("[data-late]").forEach(e=>e.textContent=lateNote);
 $("dpick").onchange=()=>{const v=$("dpick").value;if(!v)return;const[y,m,d]=v.split("-").map(Number),i=Math.round((Date.UTC(y,m-1,d)-Date.UTC(base.getFullYear(),base.getMonth(),base.getDate()))/864e5);if(i<0||i>=ND){drawDays();return}S.day=i;drawDays();drawSlots()};
 $("days").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.day=+b.dataset.i;drawDays();drawSlots()};
 $("slots").onclick=e=>{const b=e.target.closest("button");if(!b||b.disabled)return;S.time=b.dataset.t;drawSlots()};

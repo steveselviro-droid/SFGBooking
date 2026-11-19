@@ -7,6 +7,9 @@
 //  Every town works both ways (Windhoek to town, town to Windhoek).
 //  Then click "Commit changes". The site updates in about 1 minute.
 //
+//  LATE-NIGHT TRIPS: the times in "lateSlots" stop taking bookings at "lateCutoff"
+//  (18:00) on the day of the trip. Change either line to adjust. Use [] for none.
+//
 //  TO CHANGE A PRICE: edit the number next to the town in "prices" below
 //  (price per seat, in N$, one way, same both directions).
 //  Prices show in "Where we go" and under From/To on the booking form.
@@ -24,6 +27,8 @@ window.SFG = {
   maxSeats: 12,                   // most seats one booking can ask for
   maxAheadDays: 90,               // how many days ahead people can book
   cutoffMinutes: 60,              // bookings close 1 hour before departure
+  lateSlots: ["20:00", "21:00"],  // late-night trips: on the day, booking closes at lateCutoff
+  lateCutoff: "18:00",            // closing time (24h) for the late trips above, on the day of the trip
   slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   currency: "N$",

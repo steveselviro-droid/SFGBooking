@@ -22,7 +22,8 @@ window.SFG = {
   whatsapp: "264812385723",       // secretary WhatsApp (no + and no leading 0)
   callNumber: "264812128606",     // alternative number for calls
   email: "sfgbooking97@gmail.com",
-  instagram: "https://www.instagram.com/sfgbooking/",   // Instagram link (button in "Talk to us")
+  instagram: "https://www.instagram.com/sfgbooking/",   // Instagram link (Talk to us button + footer icon)
+  facebook: "https://www.facebook.com/profile.php?id=61596122567021",   // Facebook link (Talk to us button + footer icon)
   hub: "Windhoek",
   maxSeats: 12,                   // most seats one booking can ask for
   maxAheadDays: 90,               // how many days ahead people can book
@@ -37,7 +38,7 @@ window.SFG = {
   prices: {
     "Rehoboth": 80,
     "Keetmanshoop": 300,
-    "Groot Aub": 60,
+    "Groot Aub": 70,
     "Mariental": 200,
     "Osona Village": 70,
     "Otjiwarongo": 250,
@@ -55,7 +56,7 @@ window.SFG = {
     "Swakopmund": 260,
     "Rehoboth": 90,
     "Keetmanshoop": 310,
-    "Groot Aub": 70,
+    "Groot Aub": 80,
     "Mariental": 210,
     "Osona Village": 80,
     "Otjiwarongo": 260,

@@ -30,7 +30,7 @@ window.SFG = {
   cutoffMinutes: 60,              // bookings close 1 hour before departure
   lateSlots: ["20:00", "21:00"],  // late-night trips: on the day, booking closes at lateCutoff
   lateCutoff: "18:00",            // closing time (24h) for the late trips above, on the day of the trip
-  slots: ["06:00", "07:00", "08:00", "11:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
+  slots: ["06:00", "07:00", "10:00", "14:00", "17:00", "18:00", "20:00", "21:00"],
 
   currency: "N$",
   homeLabel: "Until home",

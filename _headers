@@ -8,3 +8,7 @@
   Cache-Control: public, max-age=300
 /routes.js
   Cache-Control: public, max-age=60
+/about.html
+  Cache-Control: public, max-age=300
+/images/*
+  Cache-Control: public, max-age=86400
